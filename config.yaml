@@ -1,0 +1,24 @@
+# Database settings 
+#
+# Pass here absolute path where you want to store tasks
+#database-path: "/usr/share"
+#database-path: "/usr/local/share"
+#
+# Set naem of database file
+database-name: "test.db"
+
+# Set name of template yaml file
+template-name: "test.yaml"
+
+# Pick one of the following
+
+#table-style: "default"
+table-style: "light"
+#table-style: "bold"
+#table-style: "rounded"
+#table-style: "doubled"
+#
+#
+# Default is true
+separate-columns: false
+separate-rows: false
