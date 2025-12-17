@@ -12,9 +12,12 @@ var readCmd = &cobra.Command{
 	Use:   "read",
 	Short: "Read tasks",
 	Run: func(cmd *cobra.Command, args []string) {
+		cathegoryName, _ := cmd.Flags().GetString("cathegory")
+		if cathegoryName == "" {
+			cathegoryName = "default"
+		}
 
-		tasks, err := repository.ReadTasks()
-
+		tasks, err := repository.ReadAssignedTasks(cathegoryName)
 		if err != nil {
 			panic(fmt.Errorf("Unable to read tasks: %s\n", err))
 		}
@@ -29,5 +32,7 @@ var readCmd = &cobra.Command{
 }
 
 func init() {
+	readCmd.Flags().StringP("cathegory", "c", "default", "Read tasks assigned to cathegory name")
+
 	RootCmd().AddCommand(readCmd)
 }

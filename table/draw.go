@@ -35,6 +35,18 @@ func PrintTaskTable(tasks []repository.Task) {
 		t.AppendRow(table.Row{task.Id, task.Topic, task.Notes, task.Done})
 
 	}
+
+	t.AppendSeparator()
+	t.Render()
+}
+
+func PrintCathegoryTable(cathegories []repository.Cathegory) {
+	t.AppendHeader(table.Row{"id", "body"})
+	for _, cathegory := range cathegories {
+
+		t.AppendRow(table.Row{cathegory.Id, cathegory.Body})
+
+	}
 	t.AppendSeparator()
 	t.Render()
 }

@@ -1,14 +1,20 @@
 package repository
 
+import (
+	"database/sql"
+)
+
 type Task struct {
 	Id    int    `db:"id" yaml:"id"`
 	Topic string `db:"topic" yaml:"topic"`
 	Notes string `db:"notes" yaml:"notes"`
 	Done  bool   `db:"done" yaml:"done"`
+
+	CathegoryID sql.NullInt64 `db:"cathegoryID" yaml:"-"`
 }
 
-func AddTask(topic string, notes string) (int64, error) {
-	r, err := Db().Exec(taskCreateRecordSchema, topic, notes)
+func AddTask(c int16, topic string, notes string) (int64, error) {
+	r, err := Db().Exec(taskCreateRecordSchema, c, topic, notes)
 	if err != nil {
 		return 0, err
 	}
@@ -24,6 +30,18 @@ func AddTask(topic string, notes string) (int64, error) {
 func ReadTasks() (*[]Task, error) {
 	t := []Task{}
 	err := Db().Select(&t, taskReadAllRecordSchema)
+	if err != nil {
+		return nil, err
+	}
+
+	return &t, err
+}
+
+func ReadAssignedTasks(cathegoryName string) (*[]Task, error) {
+	t := []Task{}
+	var err error
+
+	err = Db().Select(&t, taskReadAssignedRecordsSchema, cathegoryName)
 	if err != nil {
 		return nil, err
 	}

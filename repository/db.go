@@ -10,6 +10,17 @@ import (
 )
 
 func initTables() {
+	if _, err := Db().Exec("PRAGMA foreign_keys = ON;"); err != nil {
+		panic(fmt.Errorf("Unable to add foreign keys support : %s\n", err))
+	}
+
+	if _, err := Db().Exec(cathegoryCreateTable); err != nil {
+		panic(fmt.Errorf("Unable to create table cathegory: %s\n", err))
+	}
+
+	// Creates default cathegory if it is not exist
+	AddCathegory("default")
+
 	if _, err := Db().Exec(taskCreateTable); err != nil {
 		panic(fmt.Errorf("Unable to create table task: %s\n", err))
 	}
